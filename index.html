@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App de Horarios</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Horarios</h1>
+
+        <!-- Formulario de inicio de sesión -->
+        <div id="loginSection">
+            <h3>Iniciar Sesión</h3>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Nombre de Usuario:</label>
+                    <input type="text" id="username" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nip" class="form-label">NIP:</label>
+                    <input type="password" id="nip" class="form-control" maxlength="4" pattern="\d{4}" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            </form>
+        </div>
+
+        <!-- Sección de selección de grupo -->
+        <div id="scheduleSection" class="d-none">
+            <h3>Selecciona tu grupo</h3>
+            <button id="group1" class="btn btn-outline-primary w-100 mb-2">Grupo 1: 2:30 - 3:00 PM</button>
+            <button id="group2" class="btn btn-outline-primary w-100 mb-2">Grupo 2: 3:00 - 3:30 PM</button>
+            <button id="group3" class="btn btn-outline-primary w-100 mb-2">Grupo 3: 3:30 - 4:00 PM</button>
+        </div>
+
+        <!-- Botón para editar perfil -->
+        <div class="text-end mt-3">
+            <button id="toggleProfileButton" class="btn btn-secondary d-none">Editar Perfil</button>
+        </div>
+
+        <!-- Sección de edición de perfil -->
+        <div id="profileSection" class="d-none">
+            <h3>Editar Perfil</h3>
+            <form id="profileForm">
+                <div class="mb-3">
+                    <label for="newUsername" class="form-label">Nuevo Nombre de Usuario:</label>
+                    <input type="text" id="newUsername" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="newNip" class="form-label">Nuevo NIP:</label>
+                    <input type="text" id="newNip" class="form-control" maxlength="4" pattern="\d{4}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="newPublicName" class="form-label">Nuevo Nombre Público:</label>
+                    <input type="text" id="newPublicName" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-success">Guardar Cambios</button>
+            </form>
+        </div>
+
+        <!-- Sección de administración -->
+        <div id="adminSection" class="d-none mt-4">
+            <h3>Administración</h3>
+            <button id="clearGroupsButton" class="btn btn-danger mb-2">Borrar Grupos Seleccionados</button>
+            <button id="runSortButton" class="btn btn-primary">Realizar Sorteo</button>
+        </div>
+    </div>
+
+    <script type="module" src="/main.js"></script>
+</body>
+</html>
