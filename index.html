@@ -10,6 +10,31 @@
     <div class="container mt-5">
         <h1 class="text-center">Horarios</h1>
 
+        <div class="reloj-container">
+            <h2 id="clock">--:--:--</h2>
+            <p id="message">Esperando...</p>
+        </div>  
+        <style>
+            /* Estilos para el reloj y mensajes */
+            .reloj-container {
+                text-align: center;
+                margin: 20px 0;
+                font-family: 'Arial', sans-serif;
+            }
+    
+            #clock {
+                font-size: 2rem;
+                color: #333;
+            }
+    
+            #message {
+                font-size: 1.2rem;
+                color: #555;
+                margin-top: 10px;
+            }
+        </style>      
+                
+
         <!-- Formulario de inicio de sesión -->
         <div id="loginSection">
             <h3>Iniciar Sesión</h3>
@@ -38,6 +63,59 @@
         <div class="text-end mt-3">
             <button id="toggleProfileButton" class="btn btn-secondary d-none">Editar Perfil</button>
         </div>
+
+                        <!-- Botón para mostrar/ocultar instrucciones -->
+        <div class="instructions-section">
+            <button id="toggleInstructionsButton" class="btn btn-info">
+                Ver instrucciones
+            </button>
+            <!-- Contenedor oculto de instrucciones -->
+            <div id="instructionsText" class="d-none mt-3">
+                <h4>Instrucciones de Uso</h4>
+                <ol>
+                    <li>
+                        Inicia sesión con tu nombre de usuario y NIP.<br>
+                        Si tienes problemas para iniciar sesión, asegúrate de que tus datos sean correctos.
+                    </li>
+                    <li>
+                        Selecciona un grupo de comida en el horario que prefieras:
+                        <ul>
+                            <li>Grupo 1: 2:30 - 3:00 PM</li>
+                            <li>Grupo 2: 3:00 - 3:30 PM</li>
+                            <li>Grupo 3: 3:30 - 4:00 PM</li>
+                        </ul>
+                        Después de seleccionar, aparecerá un mensaje que confirmará tu elección. Por ejemplo:  
+                        <em>"Seleccionaste el Grupo 1: 2:30 - 3:00 PM".</em>
+                    </li>
+                    <li>
+                        Espera el sorteo para ver en qué grupo quedaste.
+                    </li>
+                    <li>
+                        Revisa el grupo final asignado y los integrantes.
+                    </li>
+                    <li>
+                        Si lo deseas, edita tu perfil para cambiar tu información.
+                    </li>
+                    <li>
+                        Si no seleccionaste grupo, el sistema te asignará automáticamente.  
+                        Si olvidaste seleccionar un grupo, revisa tu asignación después del sorteo.
+                    </li>
+                </ol>
+                <hr>
+                <!-- Enlace al tutorial -->
+                <p>
+                    Para más detalles sobre cómo actualizar tus datos, consulta el siguiente video tutorial:  
+                    <a href="https://sharing.clickup.com/clip/p/t9014326681/5616d371-68d5-4587-acdc-d04fbf392f10/Tutorial%20actualizacion%20de%20datos.webm" 
+                    target="_blank" 
+                    style="color: #007bff; text-decoration: none; font-weight: bold;">
+                        Ver Video Tutorial
+                    </a>
+                </p>
+            </div>
+        </div>
+
+
+
 
         <!-- Sección de edición de perfil -->
         <div id="profileSection" class="d-none">
