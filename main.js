@@ -1,6 +1,8 @@
 // Importar Firebase
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
+import { addDoc } from "firebase/firestore";
+
 
 // Configuración de Firebase
 const firebaseConfig = {
@@ -72,6 +74,7 @@ loginForm.addEventListener("submit", async (e) => {
             // Mostrar la sección de administración si el usuario es admin
             if (userDoc.userType === "admin") {
                 adminSection?.classList.remove("d-none");
+                cargarUsuariosAdmin();
             }
 
             // Prellenar los campos de edición de perfil
@@ -289,11 +292,11 @@ runSortButton.addEventListener("click", async () => {
             }
         });
 
-        // Redistribuir si algún grupo excede el límite de 7
+        // Redistribuir si algún grupo excede el límite de 5 (Limite actual por la cantidad de usuarios)
         const redistribute = (groupArray, targetGroups) => {
-            while (groupArray.length > 7) {
+            while (groupArray.length > 5) {
                 const user = groupArray.pop(); // Saca al último usuario
-                const targetGroup = targetGroups.find((g) => g.length < 7);
+                const targetGroup = targetGroups.find((g) => g.length < 6);
                 if (targetGroup) {
                     targetGroup.push(user);
                 }
@@ -307,13 +310,13 @@ runSortButton.addEventListener("click", async () => {
 
         // Agregar los no seleccionados a los grupos
         for (const user of ungrouped) {
-            if (group1.length < 7) {
+            if (group1.length < 5) {
                 group1.push(user);
                 await updateDoc(user.ref, { group: "group1" });
-            } else if (group2.length < 7) {
+            } else if (group2.length < 5) {
                 group2.push(user);
                 await updateDoc(user.ref, { group: "group2" });
-            } else if (group3.length < 7) {
+            } else if (group3.length < 5) {
                 group3.push(user);
                 await updateDoc(user.ref, { group: "group3" });
             }
@@ -401,3 +404,88 @@ setInterval(updateClockAndMessage, 1000);
 // Inicializar al cargar la página
 updateClockAndMessage();
 
+
+
+document.getElementById("toggleAdminUserSection").addEventListener("click", () => {
+    const adminUserSection = document.getElementById("adminUserSection");
+    adminUserSection.classList.toggle("d-none");
+});
+
+
+// Función para agregar usuario
+async function addUser(event) {
+    event.preventDefault();
+    
+    const username = document.getElementById("newUsername2").value.trim();
+    const publicName = document.getElementById("newPublicName2").value.trim();
+    const nip = document.getElementById("newNip2").value.trim();
+    const userType = document.getElementById("newUserType2").value;
+    const id = 1;
+
+    if (!username || !publicName || !nip) {
+        alert("Todos los campos son obligatorios.");
+        return;
+    }
+
+    try {
+        await addDoc(collection(db, "users"), { 
+            username, 
+            publicName, 
+            nip, 
+            userType, 
+            group: null, 
+        });
+        alert("Usuario agregado correctamente.");
+    } catch (error) {
+        console.error("Error al agregar usuario:", error);
+        alert("No se pudo agregar el usuario.");
+    }
+}
+
+document.getElementById("addUserForm").addEventListener("submit", addUser);
+
+import { deleteDoc } from "firebase/firestore"; // Asegúrate de tener esto
+
+async function cargarUsuariosAdmin() {
+    const userList = document.getElementById("userList");
+    userList.innerHTML = "";
+
+    try {
+        const snapshot = await getDocs(collection(db, "users"));
+        snapshot.forEach((docSnap) => {
+            const user = docSnap.data();
+
+            const li = document.createElement("li");
+            li.classList.add("list-group-item", "d-flex", "justify-content-between", "align-items-center");
+
+            li.textContent = `${user.publicName || "(sin nombre)"} - ${user.username}`;
+
+            // Verificamos que no sea admin ni uno mismo
+            const isCurrentUser = userDoc.id === docSnap.id;
+            const isAdmin = user.userType === "admin";
+
+            if (!isAdmin && !isCurrentUser) {
+                const btn = document.createElement("button");
+                btn.textContent = "Eliminar";
+                btn.classList.add("btn", "btn-danger", "btn-sm");
+                btn.onclick = async () => {
+                    if (confirm(`¿Seguro que quieres eliminar a ${user.publicName}?`)) {
+                        await deleteDoc(doc(db, "users", docSnap.id));
+                        alert("Usuario eliminado.");
+                        cargarUsuariosAdmin(); // Recargar la lista
+                    }
+                };
+                li.appendChild(btn);
+            } else {
+                const tag = document.createElement("span");
+                tag.classList.add("badge", "bg-secondary");
+                tag.textContent = isCurrentUser ? "Tú" : "Admin";
+                li.appendChild(tag);
+            }
+
+            userList.appendChild(li);
+        });
+    } catch (error) {
+        console.error("Error al cargar usuarios:", error);
+    }
+}

@@ -142,7 +142,33 @@
             <h3>Administración</h3>
             <button id="clearGroupsButton" class="btn btn-danger mb-2">Borrar Grupos Seleccionados</button>
             <button id="runSortButton" class="btn btn-primary">Realizar Sorteo</button>
+            <button id="toggleAdminUserSection" class="btn btn-secondary">Agregar Usuarios</button>
+            <div id="userListContainer" class="mt-4">
+                <h4>Usuarios registrados</h4>
+                <ul id="userList" class="list-group"></ul>
+              </div>
+              
         </div>
+
+
+        <div id="adminUserSection" class="d-none">
+            <h3>Administración de Usuarios</h3>
+        
+            <!-- Formulario para agregar usuario -->
+            <form id="addUserForm">
+                <input type="text" id="newUsername2" placeholder="Nombre de usuario" required>
+                <input type="text" id="newPublicName2" placeholder="Nombre público" required>
+                <input type="password" id="newNip2" placeholder="NIP" required>
+                <select id="newUserType2">
+                    <option value="normal">Normal</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+            </form>
+        </div>
+
+
+
     </div>
 
     <script type="module" src="/main.js"></script>
